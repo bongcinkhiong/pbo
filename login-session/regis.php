@@ -22,5 +22,6 @@
                 <input type="submit" value="daftar" name="sign_up">
             </div>
         </form>
+        <a href="index.php">Sudah Punya Akun?</a>
     </body>
 </html>
