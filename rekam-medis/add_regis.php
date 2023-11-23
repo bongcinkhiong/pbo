@@ -1,83 +1,99 @@
 <?php
 include 'config.php';
-
 // ambil nilai dari form into variabel
-$username = $_POST['username'];
-$password = $_POST['password'];
-$nama_lengkap = $_POST['nama_lengkap'];
+$user = $_POST['username'];
+$pass = $_POST['password'];
+$nama = $_POST['nama_lengkap'];
 $role = $_POST['role'];
-
 // Eliminasi Role
 // jika rolenya itu admin = insert into user
-// jika rolenya itu pasien = insert into user + insert into detail_pasien
-// jika rolenya itu dokter = insert into user + insert into detail_dokter
-
+// jika rolenya pasien = insert into user + insert into detail_pasien
+// jika rolenya dokter = insert into user + insert into detail_dokter
 // untuk admin
-if($role == "admin"){
-    $insert = mysqli_query($host, "INSERT INTO user VALUES(null, '$username','$password','$nama_lengkap','$role')");
-    if($insert){
+if ($role == "admin") {
+    $insert = mysqli_query($host, "insert into user values(
+        null,'$user','$pass','$nama','$role'
+    )");
+    if ($insert) {
         echo "
         <script>
-        alert('Akun Admin Berhasil Daftar');
+        alert('Data Admin Berhasil Di Tambah');
         window.location.href = 'index.php';
         </script>
         ";
-    }else{
+    } else {
         echo "
         <script>
-        alert('Akun Gagal Daftar');
+        alert('Data Tidak Berhasil Di Tambah');
         window.location.href = 'register.php';
         </script>
         ";
     }
+    // untuk dokter
+} else if ($role == "dokter") {
+    $insert_dokter = mysqli_query($host, "insert into user values(
+        null,'$user','$pass','$nama','$role'
+    )");
 
-// untuk dokter
-}elseif($role == "dokter"){
-    $insert = mysqli_query($host, "INSERT INTO user VALUES(null, '$username','$password','$nama_lengkap','$role')");
-    $insert .= mysqli_query($host, "INSERT INTO detail_dokter VALUES(null, '1,'$name','spesialis')");
+    if($insert_dokter){
+        $last = mysqli_insert_id($host);
+    }
 
-    if($insert){
+    $insert_dokter_2 = mysqli_query($host, "insert into detail_dokter values(
+        null,'$last','$nama','spesialis'
+    )");
+
+    if ($insert_dokter AND $insert_dokter_2) {
         echo "
         <script>
-        alert('Akun Dokter Berhasil Daftar');
+        alert('Data Dokter Berhasil Di Tambah');
         window.location.href = 'index.php';
         </script>
         ";
-    }else{
+    } else {
         echo "
         <script>
-        alert('Akun Gagal Daftar');
+        alert('Data Tidak Berhasil Di Tambah');
         window.location.href = 'register.php';
         </script>
         ";
     }
-// untuk pasien
-}elseif($role == "pasien"){
-    $insert = mysqli_query($host, "INSERT INTO user VALUES(null, '$username','$password','$nama_lengkap','$role')");
-    $insert .= mysqli_query($host, "INSERT INTO detail_pasien VALUES(null, '1','$name','alamat','gender','00')");
+    // untuk pasien
+} else if ($role == "pasien") {
+    $insert_pasien = mysqli_query($host, "insert into user values(
+        null,'$user','$pass','$nama','$role'
+    )");
 
-    if($insert){
+    // cek id terakhir di user 
+    if($insert_pasien){
+        $last = mysqli_insert_id($host);   
+    }
+    // cek id terakhir di user 
+
+    $insert_pasien_2 = mysqli_query($host, "insert into detail_pasien values(
+        null,'$last','$nama','alamat','pria','00'
+    )");
+
+    if ($insert_pasien AND $insert_pasien_2) {
         echo "
         <script>
-        alert('Akun Pasien Berhasil Daftar');
+        alert('Data Pasien Berhasil Di Tambah');
         window.location.href = 'index.php';
         </script>
         ";
-    }else{
+    } else {
         echo "
         <script>
-        alert('Akun Gagal Daftar');
+        alert('Data Tidak Berhasil Di Tambah');
         window.location.href = 'register.php';
         </script>
         ";
     }
-}else{
+} else {
     echo "
     <script>
-    alert('Akun Gagal Daftar');
+    alert('Data Tidak Berhasil Di Tambah');
     window.location.href = 'register.php';
     </script>
     ";
 }
-
-?>
