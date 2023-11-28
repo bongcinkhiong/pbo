@@ -1,16 +1,4 @@
-<?php
-    include '../template/link.php';
-
-    if(isset($_GET['pesan'])){
-    if($_GET['pesan'] == "gagal" ){
-        echo"
-        <script>
-        alert('Login Eror Silahkan coba kembali!')
-        </script>
-        ";
-        }
-    }
-?>
+<?php include '../template/link.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -26,6 +14,17 @@
             <div id="card-title">
                 <h2>Login</h2>
             </div>
+            <?php
+                if(isset($_GET['pesan'])){
+                    if($_GET['pesan'] == "gagal" ){
+                        echo"
+                        <script>
+                        alert('Username dan Password tidak sesuai!')
+                        </script>
+                        ";
+                    }
+                }
+            ?>
             <form action="proses_login.php" method="post" class="form">
                 <div class="input-group mb-3">
                     <input type="text" name="username" placeholder="username" class="form-control">

@@ -6,7 +6,7 @@ $host = mysqli_connect("localhost","root",null,"crud");
 if(isset($_POST['tambah'])){
 
 $name = $_POST['nama'];
-$email = $_POST['email'];
+$email = $_POST['email'];   
 $no_hp = $_POST['no_hp'];
 
 $tambah = mysqli_query($host,"insert into user values(null,'$name','$email','$no_hp')");
